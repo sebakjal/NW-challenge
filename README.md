@@ -70,8 +70,19 @@ Cloud Functions tiene la capacidad de entregar información sobre el proceso de 
 
 Para simplificar los datos estos se separan en tablas regionales, se facilitan las queries agrupando con un sistema de grilla intuitivo y se particionan los datos por la hora del viaje. Opcionalmente se pueden agregar las columnas con distancias en metros si así se quisiera, que son más manejables que las coordenadas geográficas. Estas están generadas en el código pero no agregadas en la tabla final por simplicidad.
 
-Para probar la escalabilidad de esta tabla se realizaron pruebas agregando una gran cantidad de registros y comprobando que el tiempo de procesamiento no escala linealmente. En un principio se prueba haciendo una consulta a todos los registros de la tabla de Praga
+Para probar la escalabilidad de esta tabla se realizaron pruebas agregando una gran cantidad de registros y comprobando que el tiempo de procesamiento no escala linealmente. En un principio se prueba haciendo una consulta a todos los registros originales de la tabla de Praga:
 
+![34rows](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/34rows.png)
+
+En esta se puede ver que la query demoró 487 ms, medio segundo. Teniendo esta query como parámetro se comienzan a agregar más entradas a las tablas y se prueba la misma query, para ver como sube el tiempo de consulta. Se hicieron pruebas con 170, 7786 y 95293 registros:
+
+![170rows](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/170rows.jpeg)
+
+![7786rows](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/7786rows.png)
+
+![95293rows](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/95293rows.jpeg)
+
+A partir de estas pruebas se puede constatar que a pesar de que la cantidad de registros ha crecido en más de mil veces, la respuesta sigue demorando menos de 2 segundos.
 
 4. La solución debe estar escrita en Python usando una base de datos SQL
 
