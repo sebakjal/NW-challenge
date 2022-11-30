@@ -14,7 +14,7 @@ Tecnologías usadas:
 - Google Cloud BigQuery
 - Airflow
 
-El flujo de los datos comienza una carpeta local, donde se tienen el notebook de Python y el(los) archivos .csv con datos de viajes que los usuarios han puesto. Una vez al día Airflow corre el notebook de Python, que contiene el código para limpiar y formatear los datos, dejando como resultado un archivo .csv. De la misma forma, Airlfow toma este archivo resultante y lo sube a un bucket de Cloud Storage. Al subir un archivo se activa un trigger de Cloud Functions, que toma el nuevo archivo y lo separa por región, mandando los datos a tablas separadas de BigQuery, siendo esta la base de datos SQL. 
+El flujo de los datos comienza una carpeta local, donde se tienen el notebook de Python (csv_process.ipynb) y el(los) archivos .csv con datos de viajes que los usuarios han puesto. Una vez al día Airflow corre el notebook de Python, que contiene el código para limpiar y formatear los datos, dejando como resultado un archivo .csv (formatted_trips.csv). De la misma forma, Airlfow toma este archivo resultante y lo sube a un bucket de Cloud Storage (gs://nw_upload). Al subir un archivo se activa una función de Cloud Functions (código en el archivo Cloud_Functions.py), que toma el nuevo archivo y lo separa por región, mandando los datos a tablas separadas a un dataset de BigQuery, siendo esta la base de datos SQL. 
 
 ## Solución
 
@@ -95,7 +95,7 @@ La solución no se ha alcanzado a llevar a contenedores. Por otro lado, la soluc
 
 # Código del script local para limpiar los datos desde archivos .csv
 
-Este es el script principal que sirve para hacer la limpieza y formateo de datos desde los archivos .csv. Este archivo tiene que estar en una carpeta local junto con los .csv que se quieran procesar (y que estén en el formato entregado con el enunciado). Se recomienda leer documentación en GitHub antes.
+Este (csv_process.ipynb) es el script principal que sirve para hacer la limpieza y formateo de datos desde los archivos .csv. Este archivo tiene que estar en una carpeta local junto con los .csv que se quieran procesar (y que estén en el formato entregado con el enunciado). Se recomienda leer documentación en GitHub antes.
 
 En el siguiente bloque se importan las librerías necesarias para el código:
 - pandas se usa para ordenar los datos en tablas
@@ -264,7 +264,7 @@ else:
 
 # Código de la función usada en Cloud Functions (FaaS)
 
-Esta esta función tiene un trigger que se activa cuando un nuevo archivo se carga dentro de cierto bucket en Cloud Storage, y lo que hace es tomar este archivo (.csv) ya limpio que fue subido en el bucket y carga su contenido a las tablas correspondientes en el dataset de BigQuery.
+Esta función (Cloud_Function.py) tiene un trigger que se activa cuando un nuevo archivo se carga dentro de cierto bucket en Cloud Storage, y lo que hace es tomar este archivo (.csv) ya limpio que fue subido en el bucket y carga su contenido a las tablas correspondientes en el dataset de BigQuery.
 
 ```
 from google.cloud import bigquery
