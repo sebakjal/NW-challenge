@@ -4,7 +4,7 @@ El challenge consiste en crear un proyecto de ingesta de datos que toma los dato
 
 ## Diagrama de flujo de datos
 
-![Diagrama de flujo](https://github.com/sebakjal/NW_challenge/blob/main/NW%20challenge%20flow.png)
+![Diagrama de flujo](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/NWchallenge%20flow.png)
 
 Tecnologías usadas:
 
@@ -23,12 +23,12 @@ Para desarrollar la solución se pide que los viajes tienen que estar agrupados 
 ### Región
 En el caso de la región, dado que es una separación muy grande en distancia y los viajes están contenidos dentro de esta misma, se opta por separar los datos en tablas diferentes. Es decir, una tabla para cada región.
 
-![Tablas](https://github.com/sebakjal/NW_challenge/blob/main/BQTables.png)
+![Tablas](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/BQTables.png)
 
 ### Horario
 Para la similitud por hora se decide crear una columna que contenga la hora en forma de número entero. Esto significa que un viaje realizado a las 15:27 tiene una columna con el valor 15. Esto se hace para que sea simple realizar una query agrupando los datos con valores de tiempo similares. Adicionalmente, las tablas se particionan por esta misma columna, haciendo más eficiente las consultas a BigQuery y permitiendo la visualización de coste más precisa. Esto se hace en anticipo a un aumento grande en la cantidad de registros.
 
-![Particion](https://github.com/sebakjal/NW_challenge/blob/main/BQPartitions.png)
+![Particion](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/BQPartitions.png)
 
 Una forma de mejorar esta solución es agregando también la división por minutos. 
 
@@ -37,7 +37,7 @@ En cuanto a la cercanía dentro de una misma región, para hacer una agrupamient
 El eje X se indica con números enteros que van aumentando hacia el este, y el eje Y se indica con letras, que van aumentando hacia el norte (ver Imagen). Para las celdas más allá de la letra "Z" se sigue el formato de Microsoft Excel, donde las celdas toman valores en el estilo "AB", "AC", "AD", etc.
 Con este método es muy fácil identificar las zonas con mayor concentración de viajes y hacer otros análisis.
 
-![Grilla](https://github.com/sebakjal/NW_challenge/blob/main/GrillaNeuralWorksTurin.png)
+![Grilla](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/GrillaNeuralWorksTurin.png)
 
 Una forma de mejorar esta solución es disminuir el tamaño del cuadrante, usando una división mas fina que permita reducir el tiempo en caminar hacia el punto de encuentro.
 
@@ -58,13 +58,13 @@ a. Devuelve el promedio semanal de la cantidad de viajes para un área definida 
 
 Dado que se tiene la columna con la fecha completa con el tipo TIMESTAMP de BigQuery, se pueden hacer queries en cualquier espacio temporal, incluyendo semanal. La región está dada simplemente por hacer la consulta a la tabla correspondiente. Por último, se puede hacer una query a una bounding box usando los comandos BETWEEN y aprovechando las coordenadas geográficas. En la imagen se observa un ejemplo de este tipo de query. x1, x2, y1 y y2 se pueden reemplazar por los límites de la bounding box.
 
-![Query con límites](https://github.com/sebakjal/NW_challenge/blob/main/BQueryBoundingBox.png)
+![Query con límites](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/BQueryBoundingBox.png)
 
 b. Informar sobre el estado de la ingesta de datos sin utilizar una solución de polling
 
 Cloud Functions tiene la capacidad de entregar información sobre el proceso de ingesta de los datos a través de sus paneles con métricas y logging. 
 
-![Monitoring y logging](https://github.com/sebakjal/NW_challenge/blob/main/CloudFunctionsMonitoring.png)
+![Monitoring y logging](https://github.com/sebakjal/NW_challenge/blob/main/imagenes/CloudFunctionsMonitoring.png)
 
 3. La solución debe ser escalable a 100 millones de entradas. Se recomienda simplificar los datos mediante un modelo de datos. Agregue pruebas de que la solución es escalable.
 
