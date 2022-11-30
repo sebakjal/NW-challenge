@@ -365,6 +365,8 @@ from airflow.providers.papermill.operators.papermill import PapermillOperator
 
 # Seteo de variables
 home_path = os.path.expanduser('~')
+
+# Reemplazar con la carpeta donde se ubican el notebook csv_process.ipynb y los .csv
 working_path = home_path + '/neuralworks/'
 owner = 'owner'
 gcs_bucket = 'nw-upload'
@@ -402,6 +404,7 @@ with DAG(
         parameters={}
     )
 
+    # Para el video el comando se cambia a 10 segundos temporalmente
     sleep_300 = BashOperator(
         task_id='sleep_300',
         bash_command='sleep 300'
@@ -418,7 +421,7 @@ if __name__ == "__main__":
     dag.cli()
 ```
     
-Este archivo debe integrarse en la carpeta de DAGs correspondiente.
+Este archivo (nw_DAG.py) debe integrarse en la carpeta de DAGs de Airflow.
 Adicionalmente deben correrse los siguiente comandas para instalar y actualizar dependencias:
 
 - pip install papermill
