@@ -8,7 +8,10 @@ from airflow.providers.papermill.operators.papermill import PapermillOperator
 
 # Seteo de variables
 home_path = os.path.expanduser('~')
+
+# Reemplazar con la carpeta donde se ubican el notebook csv_process.ipynb y los .csv
 working_path = home_path + '/neuralworks/'
+
 owner = 'owner'
 gcs_bucket = 'nw-upload'
 
@@ -45,6 +48,7 @@ with DAG(
         parameters={}
     )
 
+    # En el video se cambia este comando para que dure 10 segundos temporalmente
     sleep_300 = BashOperator(
         task_id='sleep_300',
         bash_command='sleep 300'
